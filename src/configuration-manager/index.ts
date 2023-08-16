@@ -25,7 +25,7 @@ async function createMicrosoftConfigurationManagerClient(
   client = await createClient({
     dbHost: config.host,
     dbName: config.database,
-    dbUsername: config.username,
+    dbUsername: config.dbUsername,
     dbPassword: config.password,
     onRequestFailed(err) {
       logger.error({ err }, 'Error running request');

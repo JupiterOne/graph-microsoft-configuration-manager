@@ -16,7 +16,7 @@ export const instanceConfigFields: IntegrationInstanceConfigFieldMap = {
     type: 'string',
     mask: false,
   },
-  username: {
+  dbUsername: {
     type: 'string',
     mask: false,
   },
@@ -29,7 +29,7 @@ export const instanceConfigFields: IntegrationInstanceConfigFieldMap = {
 export interface IntegrationConfig extends IntegrationInstanceConfig {
   host: string;
   database: string;
-  username: string;
+  dbUsername: string;
   password: string;
 }
 
@@ -40,11 +40,11 @@ export async function validateInvocation({
   if (
     !config.host ||
     !config.database ||
-    !config.username ||
+    !config.dbUsername ||
     !config.password
   ) {
     throw new IntegrationValidationError(
-      'Config requires all of host, database, username, password',
+      'Config requires all of host, database, dbUsername, password',
     );
   }
 

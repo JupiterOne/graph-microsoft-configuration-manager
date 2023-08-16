@@ -11,7 +11,17 @@ if (process.env.LOAD_ENV) {
   });
 }
 
-export const integrationConfig: IntegrationConfig = {};
+const DEFAULT_HOST = 'test_host';
+const DEFAULT_DATABASE = 'test_db';
+const DEFAULT_USERNAME = 'test_username';
+const DEFAULT_PASSWORD = 'fakepassword';
+
+export const integrationConfig: IntegrationConfig = {
+  host: process.env.HOST || DEFAULT_HOST,
+  database: process.env.DATABASE || DEFAULT_DATABASE,
+  dbUsername: process.env.DB_USERNAME || DEFAULT_USERNAME,
+  password: process.env.PASSWORD || DEFAULT_PASSWORD,
+};
 
 export function buildStepTestConfigForStep(stepId: string): StepTestConfig {
   return {
