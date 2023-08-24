@@ -1,0 +1,89 @@
+import * as sql from 'mssql';
+import { buildDeviceListQuery } from './queries';
+
+type ResourceIteratee<T> = (each: T) => Promise<void> | void;
+
+type CreateMicrosoftConfigurationManagerClientParams = {
+  connection: sql.ConnectionPool;
+  dbName: string;
+  onRequestFailed: (err: Error) => void;
+};
+
+class MicrosoftConfigurationManagerClient {
+  private readonly connection: sql.ConnectionPool;
+  private readonly dbName: string;
+  private readonly onRequestFailed: (err: Error) => void;
+
+  constructor({
+    connection,
+    dbName,
+    onRequestFailed,
+  }: CreateMicrosoftConfigurationManagerClientParams) {
+    this.connection = connection;
+    this.dbName = dbName;
+    this.onRequestFailed = onRequestFailed;
+  }
+
+  async listDevices<T>(iteratee: ResourceIteratee<T>) {
+    const result = await this.wrapWithRequestFailedHandler(() =>
+      this.connection.query(buildDeviceListQuery(this.dbName)),
+    );
+
+    for (const record of result.recordset) {
+      await iteratee(record);
+    }
+  }
+
+  async close() {
+    if (this.connection.connected) {
+      await this.connection.close();
+    }
+  }
+
+  private async wrapWithRequestFailedHandler<TResponse>(
+    fn: () => Promise<TResponse>,
+  ) {
+    try {
+      return await fn();
+    } catch (err) {
+      throw this.onRequestFailed(err);
+    }
+  }
+}
+
+type CreateClientParams = {
+  dbHost: string;
+  dbName: string;
+  dbUsername: string;
+  dbPassword: string;
+  onRequestFailed: (err: Error) => void;
+};
+
+async function createClient({
+  dbHost,
+  dbName,
+  dbUsername,
+  dbPassword,
+  onRequestFailed,
+}: CreateClientParams): Promise<MicrosoftConfigurationManagerClient> {
+  const pool = await sql.connect({
+    server: dbHost,
+    user: dbUsername,
+    password: dbPassword,
+    database: dbName,
+    options: {
+      // TODO: Configure these appropriately based on the customer's set-up.
+      trustedConnection: true,
+      encrypt: false, // for azure
+      trustServerCertificate: true, // change to true for local dev / self-signed certs
+    },
+  });
+
+  return new MicrosoftConfigurationManagerClient({
+    connection: pool,
+    dbName,
+    onRequestFailed,
+  });
+}
+
+export { MicrosoftConfigurationManagerClient, createClient };
