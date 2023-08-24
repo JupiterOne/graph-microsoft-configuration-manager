@@ -1,7 +1,10 @@
 import {
+  createDirectRelationship,
   createIntegrationEntity,
   Entity,
   parseTimePropertyValue,
+  Relationship,
+  RelationshipClass,
 } from '@jupiterone/integration-sdk-core';
 
 import { Entities } from '../constants';
@@ -38,5 +41,16 @@ export function createDeviceEntity(device: any): Entity {
         createdOn: parseTimePropertyValue(device.Creation_Date0),
       },
     },
+  });
+}
+
+export function createAccountDeviceRelationship(
+  account: Entity,
+  device: Entity,
+): Relationship {
+  return createDirectRelationship({
+    _class: RelationshipClass.HAS,
+    from: account,
+    to: device,
   });
 }
