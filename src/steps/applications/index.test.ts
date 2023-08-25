@@ -4,7 +4,7 @@ import { Steps } from '../constants';
 import sql from 'mssql';
 import { applicationRecords } from '../../../test/mockData';
 
-test('fetch-devices', async () => {
+test('fetch-applications', async () => {
   jest.mock('mssql');
   sql.connect = jest.fn().mockResolvedValue({
     query: jest.fn().mockResolvedValue({
