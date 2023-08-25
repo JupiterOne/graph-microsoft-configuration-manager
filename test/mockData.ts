@@ -273,3 +273,20 @@ export const deviceRecords = [
     WTGUniqueKey: null,
   },
 ];
+
+export const applicationRecords = [
+  {
+    ModelName:
+      'ScopeId_61BF62F2-74BE-47A7-AA79-8F203DC9ED06/Application_b13d9e9a-3520-4f32-82de-d4f4027ae052',
+    CIVersion: 2,
+    CIGUID: '1775FB12-9A7B-4356-A856-F64ED15A84E8',
+    DisplayName: 'TestApp',
+    AdminComments: 'test app for integration testing',
+    Manufacturer: 'AP',
+    SoftwareVersion: '0.0.1',
+    Actions: 7,
+    IsUserContext: true,
+    ModelId: 16777509,
+    ObjectTypeID: 31,
+  },
+];

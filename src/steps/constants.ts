@@ -4,9 +4,17 @@ import {
   StepRelationshipMetadata,
 } from '@jupiterone/integration-sdk-core';
 
-export const Steps: Record<'FETCH_ACCOUNT' | 'FETCH_DEVICES', string> = {
+export const Steps: Record<
+  | 'FETCH_ACCOUNT'
+  | 'FETCH_APPLICATIONS'
+  | 'FETCH_DEVICES'
+  | 'BUILD_APPLICATION_RELATIONSHIPS',
+  string
+> = {
   FETCH_ACCOUNT: 'fetch-account',
+  FETCH_APPLICATIONS: 'fetch-applications',
   FETCH_DEVICES: 'fetch-devices',
+  BUILD_APPLICATION_RELATIONSHIPS: 'build-application-relationships',
 };
 
 export const Entities: Record<
@@ -41,7 +49,7 @@ export const Relationships: Record<
     targetType: Entities.DEVICE._type,
   },
   DEVICE_INSTALLED_APPLICATION: {
-    _type: 'microsoft_configuration_manager_device_installed_device',
+    _type: 'microsoft_configuration_manager_device_installed_application',
     sourceType: Entities.DEVICE._type,
     _class: RelationshipClass.INSTALLED,
     targetType: Entities.APPLICATION._type,

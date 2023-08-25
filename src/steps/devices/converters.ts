@@ -9,6 +9,10 @@ import {
 
 import { Entities } from '../constants';
 
+export function createDeviceKey(id: string) {
+  return `${Entities.DEVICE._type}:${id}`;
+}
+
 export function createDeviceEntity(device: any): Entity {
   const lastSeenOn = parseTimePropertyValue(device.Last_Logon_Timestamp0);
   const id = device.ResourceID?.toString();
@@ -17,7 +21,7 @@ export function createDeviceEntity(device: any): Entity {
     entityData: {
       source: device,
       assign: {
-        _key: `device-${id}`,
+        _key: createDeviceKey(id),
         _type: Entities.DEVICE._type,
         _class: Entities.DEVICE._class,
         id: id,
