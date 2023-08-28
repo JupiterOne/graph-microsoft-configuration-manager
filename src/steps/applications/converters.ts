@@ -43,14 +43,3 @@ export function createDeviceApplicationRelationship(
     to: application,
   });
 }
-
-export function createDeviceCollectionApplicationRelationship(
-  deviceCollection: Entity,
-  application: Entity,
-): Relationship {
-  return createDirectRelationship({
-    _class: RelationshipClass.INSTALLED,
-    from: deviceCollection,
-    to: application,
-  });
-}

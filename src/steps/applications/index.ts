@@ -57,9 +57,9 @@ export async function buildApplicationRelationships({
     logger,
   );
 
-  await client.listApplicationDeviceTargets(async (deployment: any) => {
-    const appID = createApplicationKey(deployment.CIGUID?.toString());
-    const deviceID = createDeviceKey(deployment.ResourceID?.toString());
+  await client.listApplicationDeviceTargets(async (application: any) => {
+    const appID = createApplicationKey(application.CIGUID?.toString());
+    const deviceID = createDeviceKey(application.ResourceID?.toString());
     const applicationEntity = await jobState.findEntity(appID);
     const deviceEntity = await jobState.findEntity(deviceID);
     if (applicationEntity && deviceEntity) {
