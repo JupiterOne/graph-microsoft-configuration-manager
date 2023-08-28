@@ -95,9 +95,20 @@ https://github.com/JupiterOne/sdk/blob/main/docs/integrations/development.md
 
 The following entities are created:
 
-| Resources | Entity `_type`                           | Entity `_class` |
-| --------- | ---------------------------------------- | --------------- |
-| Device    | `microsoft_configuration_manager_device` | `Device`        |
+| Resources   | Entity `_type`                                | Entity `_class` |
+| ----------- | --------------------------------------------- | --------------- |
+| Account     | `microsoft_configuration_manager_account`     | `Account`       |
+| Application | `microsoft_configuration_manager_application` | `Application`   |
+| Device      | `microsoft_configuration_manager_device`      | `Device`        |
+
+### Relationships
+
+The following relationships are created:
+
+| Source Entity `_type`                     | Relationship `_class` | Target Entity `_type`                         |
+| ----------------------------------------- | --------------------- | --------------------------------------------- |
+| `microsoft_configuration_manager_account` | **HAS**               | `microsoft_configuration_manager_device`      |
+| `microsoft_configuration_manager_device`  | **INSTALLED**         | `microsoft_configuration_manager_application` |
 
 <!--
 ********************************************************************************

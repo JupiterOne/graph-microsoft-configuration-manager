@@ -1,5 +1,9 @@
 import * as sql from 'mssql';
-import { buildDeviceListQuery } from './queries';
+import {
+  buildApplicationDeviceTargetingList,
+  buildApplicationListQuery,
+  buildDeviceListQuery,
+} from './queries';
 
 type ResourceIteratee<T> = (each: T) => Promise<void> | void;
 
@@ -27,6 +31,26 @@ class MicrosoftConfigurationManagerClient {
   async listDevices<T>(iteratee: ResourceIteratee<T>) {
     const result = await this.wrapWithRequestFailedHandler(() =>
       this.connection.query(buildDeviceListQuery(this.dbName)),
+    );
+
+    for (const record of result.recordset) {
+      await iteratee(record);
+    }
+  }
+
+  async listApplications<T>(iteratee: ResourceIteratee<T>) {
+    const result = await this.wrapWithRequestFailedHandler(() =>
+      this.connection.query(buildApplicationListQuery(this.dbName)),
+    );
+
+    for (const record of result.recordset) {
+      await iteratee(record);
+    }
+  }
+
+  async listApplicationDeviceTargets<T>(iteratee: ResourceIteratee<T>) {
+    const result = await this.wrapWithRequestFailedHandler(() =>
+      this.connection.query(buildApplicationDeviceTargetingList(this.dbName)),
     );
 
     for (const record of result.recordset) {

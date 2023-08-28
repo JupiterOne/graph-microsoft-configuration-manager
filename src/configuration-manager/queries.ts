@@ -70,10 +70,47 @@ function buildDeviceListQuery(dbName: string) {
   FROM [${dbName}].[dbo].[v_R_System]`;
 }
 
+function buildApplicationListQuery(dbName: string) {
+  validateDbName(dbName);
+
+  return `SELECT [ModelName]
+    ,[CIVersion]
+    ,[CIGUID]
+    ,[DisplayName]
+    ,[AdminComments]
+    ,[Manufacturer]
+    ,[SoftwareVersion]
+    ,[Actions]
+    ,[IsUserContext]
+    ,[ModelId]
+    ,[ObjectTypeID]
+  FROM [${dbName}].[dbo].[v_Applications]`;
+}
+
+function buildApplicationDeviceTargetingList(dbName: string) {
+  validateDbName(dbName);
+
+  return `SELECT [ModelName]
+  ,[CIGUID]
+  ,[ResourceID]
+  ,[Username]
+  ,[CIVersion]
+  ,[OfferTypeID]
+  ,[Deadline]
+  ,[Capabilities]
+  ,[ObjectTypeID]
+FROM [${dbName}].[dbo].[v_DeviceApplicationTargeting]`;
+}
+
 function validateDbName(dbName: string) {
   if (!/^[\w]+$/.test(dbName)) {
     throw new Error(`Invalid database name: ${dbName}`);
   }
 }
 
-export { buildDeviceListQuery, validateDbName };
+export {
+  buildDeviceListQuery,
+  buildApplicationListQuery,
+  buildApplicationDeviceTargetingList,
+  validateDbName,
+};
