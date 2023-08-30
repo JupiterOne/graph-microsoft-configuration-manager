@@ -2,15 +2,25 @@
 sourceId: managed:microsoft-configuration-manager
 integrationDefinitionId: '${integration_definition_id}'
 questions:
-  []
-  # - id: integration-question-template-replace-me
-  #   title: What kinds of questions will this integration support?
-  #   description:
-  #     TODO Every integration should contribute questions! Please be careful
-  #     to replace this before deploying the integration to JupiterOne.
-  #   queries:
-  #     - name: good
-  #       query: |
-  #         find * with _integrationDefinitionId = '${integration_definition_id}'
-  #   tags:
-  #     - template
+  - id: managed-question-endpoint-microsoft-configuration-manager-client
+    title:
+      Which devices don't have the SCCM client installed and running on the device?
+    description:
+      Return a list of endpoint devices don't have the SCCM client installed on them.
+    queries:
+      - query: |
+          FIND microsoft_configuration_manager_device with clientVersion = undefined AS d
+          RETURN
+            d.displayName AS Device,
+            d.id AS ID,
+            d.osType AS "OS Type",
+            d.active AS Active,
+            d.domainName AS "Domain Name",
+            d.sid AS SID,
+            d.lastSeenOn AS "Last Seen On"
+    tags:
+      - application
+      - device
+      - endpoint
+      - SCCM
+      - microsoft-configuration-manager
