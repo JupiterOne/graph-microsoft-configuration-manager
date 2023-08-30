@@ -1,3 +1,15 @@
+# v0.2.0 (Wed Aug 30 2023)
+
+#### 🚀 Enhancement
+
+- Int 9065 - Add initial managed question [#3](https://github.com/JupiterOne/graph-microsoft-configuration-manager/pull/3) ([@adam-in-ict](https://github.com/adam-in-ict))
+
+#### Authors: 1
+
+- Adam Pierson ([@adam-in-ict](https://github.com/adam-in-ict))
+
+---
+
 # v0.1.0 (Mon Aug 28 2023)
 
 #### 🚀 Enhancement
