@@ -2,6 +2,8 @@ import * as sql from 'mssql';
 import {
   buildApplicationDeviceTargetingList,
   buildApplicationListQuery,
+  buildCollectionSubscriptionQuery,
+  buildDeviceCollectionQuery,
   buildDeviceListQuery,
 } from './queries';
 
@@ -51,6 +53,31 @@ class MicrosoftConfigurationManagerClient {
   async listApplicationDeviceTargets<T>(iteratee: ResourceIteratee<T>) {
     const result = await this.wrapWithRequestFailedHandler(() =>
       this.connection.query(buildApplicationDeviceTargetingList(this.dbName)),
+    );
+
+    for (const record of result.recordset) {
+      await iteratee(record);
+    }
+  }
+
+  async listCollections<T>(iteratee: ResourceIteratee<T>) {
+    const result = await this.wrapWithRequestFailedHandler(() =>
+      this.connection.query(buildDeviceCollectionQuery(this.dbName)),
+    );
+
+    for (const record of result.recordset) {
+      await iteratee(record);
+    }
+  }
+
+  async listCollectionSubscriptions<T>(
+    tableName: string,
+    iteratee: ResourceIteratee<T>,
+  ) {
+    const result = await this.wrapWithRequestFailedHandler(() =>
+      this.connection.query(
+        buildCollectionSubscriptionQuery(this.dbName, tableName),
+      ),
     );
 
     for (const record of result.recordset) {
