@@ -1,3 +1,15 @@
+# v0.3.0 (Tue Sep 05 2023)
+
+#### 🚀 Enhancement
+
+- INT- 9065 - Add collections [#4](https://github.com/JupiterOne/graph-microsoft-configuration-manager/pull/4) ([@adam-in-ict](https://github.com/adam-in-ict))
+
+#### Authors: 1
+
+- Adam Pierson ([@adam-in-ict](https://github.com/adam-in-ict))
+
+---
+
 # v0.2.0 (Wed Aug 30 2023)
 
 #### 🚀 Enhancement
