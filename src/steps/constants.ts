@@ -10,6 +10,7 @@ export const Steps: Record<
   | 'FETCH_COLLECTIONS'
   | 'FETCH_DEVICES'
   | 'FETCH_LEGACY_APPLICATIONS'
+  | 'FETCH_LOCAL_USERS'
   | 'BUILD_APPLICATION_RELATIONSHIPS'
   | 'BUILD_COLLECTION_RELATIONSHIPS',
   string
@@ -19,6 +20,7 @@ export const Steps: Record<
   FETCH_COLLECTIONS: 'fetch-collections',
   FETCH_DEVICES: 'fetch-devices',
   FETCH_LEGACY_APPLICATIONS: 'fetch-legacy-applications',
+  FETCH_LOCAL_USERS: 'fetch-local-users',
   BUILD_APPLICATION_RELATIONSHIPS: 'build-application-relationships',
   BUILD_COLLECTION_RELATIONSHIPS: 'build-collection-relationships',
 };
