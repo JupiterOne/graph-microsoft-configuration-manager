@@ -10,6 +10,7 @@ import {
   createApplicationEntity,
   createApplicationKey,
   createDeviceApplicationRelationship,
+  createLegacyApplicationEntity,
 } from './converters';
 import { createDeviceKey } from '../devices/converters';
 
@@ -23,6 +24,14 @@ export const fetchApplicationsSteps: IntegrationStep<IntegrationConfig>[] = [
     executionHandler: fetchApplications,
   },
   {
+    id: Steps.FETCH_LEGACY_APPLICATIONS,
+    name: 'Fetch-Legacy-Applications',
+    entities: [Entities.APPLICATION],
+    relationships: [Relationships.DEVICE_INSTALLED_APPLICATION],
+    dependsOn: [Steps.FETCH_DEVICES],
+    executionHandler: fetchLegacyApplications,
+  },
+  {
     id: Steps.BUILD_APPLICATION_RELATIONSHIPS,
     name: 'Build-Application-Relationships',
     entities: [],
@@ -31,6 +40,35 @@ export const fetchApplicationsSteps: IntegrationStep<IntegrationConfig>[] = [
     executionHandler: buildApplicationRelationships,
   },
 ];
+
+export async function fetchLegacyApplications({
+  instance: { config },
+  jobState,
+  logger,
+}: IntegrationStepExecutionContext<IntegrationConfig>) {
+  const client = await createMicrosoftConfigurationManagerClient(
+    config,
+    logger,
+  );
+
+  await client.listLegacyApplications(async (application: any) => {
+    const applicationEntity = await jobState.addEntity(
+      createLegacyApplicationEntity(application),
+    );
+    const deviceID = createDeviceKey(application.ResourceID?.toString());
+    const deviceEntity = await jobState.findEntity(deviceID);
+    if (applicationEntity && deviceEntity) {
+      await jobState.addRelationship(
+        createDeviceApplicationRelationship(deviceEntity, applicationEntity),
+      );
+    } else {
+      logger.info(
+        { deviceID },
+        `Unable to create relationship between legacy application and device.`,
+      );
+    }
+  });
+}
 
 export async function fetchApplications({
   instance: { config },
@@ -42,8 +80,8 @@ export async function fetchApplications({
     logger,
   );
 
-  await client.listApplications(async (device) => {
-    await jobState.addEntity(createApplicationEntity(device));
+  await client.listApplications(async (application) => {
+    await jobState.addEntity(createApplicationEntity(application));
   });
 }
 

@@ -288,6 +288,82 @@ function buildCollectionSubscriptionQuery(dbName: string, tableName: string) {
 FROM [${dbName}].[dbo].[${tableName}]`;
 }
 
+function buildLegacyApplicationList(dbName: string) {
+  validateDbName(dbName);
+
+  return `SELECT [ResourceID]
+        ,[GroupID]
+        ,[RevisionID]
+        ,[AgentID]
+        ,[TimeStamp]
+        ,[DisplayName0]
+        ,[InstallDate0]
+        ,[ProdID0]
+        ,[Publisher0]
+        ,[Version0]
+    FROM [${dbName}].[dbo].[v_GS_ADD_REMOVE_PROGRAMS]`;
+}
+
+// TODO this gives us some information we need, but unsure how we
+// will relate to the last user that used it.
+function buildApplicationLastUsedList(dbName: string) {
+  validateDbName(dbName);
+
+  return `SELECT TOP (1000) [ResourceID]
+    ,[GroupID]
+    ,[RevisionID]
+    ,[AgentID]
+    ,[TimeStamp]
+    ,[AdditionalProductCodes0]
+    ,[CompanyName0]
+    ,[ExplorerFileName0]
+    ,[FileDescription0]
+    ,[FilePropertiesHash0]
+    ,[FileSize0]
+    ,[FileVersion0]
+    ,[FolderPath0]
+    ,[LastUsedTime0]
+    ,[LastUserName0]
+    ,[LaunchCount0]
+    ,[msiDisplayName0]
+    ,[msiPublisher0]
+    ,[msiVersion0]
+    ,[OriginalFileName0]
+    ,[ProductCode0]
+    ,[ProductLanguage0]
+    ,[ProductName0]
+    ,[ProductVersion0]
+    ,[SoftwarePropertiesHash0]
+  FROM [${dbName}].[dbo].[v_GS_CCM_RECENTLY_USED_APPS]`;
+}
+
+function buildLocalUserList(dbName: string) {
+  validateDbName(dbName);
+
+  return `SELECT TOP (1000) [ResourceID]
+      ,[GroupID]
+      ,[RevisionID]
+      ,[AgentID]
+      ,[TimeStamp]
+      ,[HealthStatus0]
+      ,[LastAttemptedProfileDownload0]
+      ,[LastAttemptedProfileUploadTi0]
+      ,[LastBackgroundRegistryUpload0]
+      ,[LastDownloadTime0]
+      ,[LastUploadTime0]
+      ,[LastUseTime0]
+      ,[Loaded0]
+      ,[LocalPath0]
+      ,[RefCount0]
+      ,[RoamingConfigured0]
+      ,[RoamingPath0]
+      ,[RoamingPreference0]
+      ,[SID0]
+      ,[Special0]
+      ,[Status0]
+  FROM [${dbName}].[dbo].[v_GS_USER_PROFILE]`;
+}
+
 function validateDbName(dbName: string) {
   if (!/^[\w]+$/.test(dbName)) {
     throw new Error(`Invalid database name: ${dbName}`);
@@ -300,5 +376,8 @@ export {
   buildApplicationDeviceTargetingList,
   buildDeviceCollectionQuery,
   buildCollectionSubscriptionQuery,
+  buildLegacyApplicationList,
+  buildApplicationLastUsedList,
+  buildLocalUserList,
   validateDbName,
 };

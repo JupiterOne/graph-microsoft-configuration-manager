@@ -9,6 +9,7 @@ export const Steps: Record<
   | 'FETCH_APPLICATIONS'
   | 'FETCH_COLLECTIONS'
   | 'FETCH_DEVICES'
+  | 'FETCH_LEGACY_APPLICATIONS'
   | 'BUILD_APPLICATION_RELATIONSHIPS'
   | 'BUILD_COLLECTION_RELATIONSHIPS',
   string
@@ -17,12 +18,13 @@ export const Steps: Record<
   FETCH_APPLICATIONS: 'fetch-applications',
   FETCH_COLLECTIONS: 'fetch-collections',
   FETCH_DEVICES: 'fetch-devices',
+  FETCH_LEGACY_APPLICATIONS: 'fetch-legacy-applications',
   BUILD_APPLICATION_RELATIONSHIPS: 'build-application-relationships',
   BUILD_COLLECTION_RELATIONSHIPS: 'build-collection-relationships',
 };
 
 export const Entities: Record<
-  'ACCOUNT' | 'APPLICATION' | 'COLLECTION' | 'DEVICE',
+  'ACCOUNT' | 'APPLICATION' | 'COLLECTION' | 'DEVICE' | 'LOCAL_USER',
   StepEntityMetadata
 > = {
   ACCOUNT: {
@@ -45,12 +47,18 @@ export const Entities: Record<
     _type: 'microsoft_configuration_manager_device',
     _class: ['Device'],
   },
+  LOCAL_USER: {
+    resourceName: 'Local User',
+    _type: 'microsoft_configuration_manager_local_user',
+    _class: ['User'],
+  },
 };
 
 export const Relationships: Record<
   | 'ACCOUNT_HAS_DEVICE'
   | 'COLLECTION_HAS_DEVICE'
-  | 'DEVICE_INSTALLED_APPLICATION',
+  | 'DEVICE_INSTALLED_APPLICATION'
+  | 'DEVICE_HAS_LOCAL_USER',
   StepRelationshipMetadata
 > = {
   ACCOUNT_HAS_DEVICE: {
@@ -70,5 +78,11 @@ export const Relationships: Record<
     sourceType: Entities.DEVICE._type,
     _class: RelationshipClass.INSTALLED,
     targetType: Entities.APPLICATION._type,
+  },
+  DEVICE_HAS_LOCAL_USER: {
+    _type: 'microsoft_configuration_manager_device_has_local_user',
+    sourceType: Entities.DEVICE._type,
+    _class: RelationshipClass.HAS,
+    targetType: Entities.LOCAL_USER._type,
   },
 };
