@@ -101,6 +101,7 @@ The following entities are created:
 | Application       | `microsoft_configuration_manager_application`       | `Application`   |
 | Device            | `microsoft_configuration_manager_device`            | `Device`        |
 | Device Collection | `microsoft_configuration_manager_device_collection` | `Group`         |
+| Local User        | `microsoft_configuration_manager_local_user`        | `User`          |
 
 ### Relationships
 
@@ -110,6 +111,7 @@ The following relationships are created:
 | --------------------------------------------------- | --------------------- | --------------------------------------------- |
 | `microsoft_configuration_manager_account`           | **HAS**               | `microsoft_configuration_manager_device`      |
 | `microsoft_configuration_manager_device_collection` | **HAS**               | `microsoft_configuration_manager_device`      |
+| `microsoft_configuration_manager_device`            | **HAS**               | `microsoft_configuration_manager_local_user`  |
 | `microsoft_configuration_manager_device`            | **INSTALLED**         | `microsoft_configuration_manager_application` |
 
 <!--

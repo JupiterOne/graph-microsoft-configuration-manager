@@ -33,6 +33,26 @@ export function createApplicationEntity(application: any): Entity {
   });
 }
 
+export function createLegacyApplicationEntity(application: any): Entity {
+  const id = application.ProdID0?.toString();
+
+  return createIntegrationEntity({
+    entityData: {
+      source: application,
+      assign: {
+        _key: createApplicationKey(id),
+        _type: Entities.APPLICATION._type,
+        _class: Entities.APPLICATION._class,
+        id: id,
+        name: application.DisplayName0,
+        displayName: application.DisplayName0,
+        softwareVersion: application.Version0,
+        manufacturer: application.Publisher0,
+      },
+    },
+  });
+}
+
 export function createDeviceApplicationRelationship(
   device: Entity,
   application: Entity,

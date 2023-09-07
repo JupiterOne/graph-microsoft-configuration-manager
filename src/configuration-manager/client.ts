@@ -5,6 +5,8 @@ import {
   buildCollectionSubscriptionQuery,
   buildDeviceCollectionQuery,
   buildDeviceListQuery,
+  buildLegacyApplicationList,
+  buildLocalUserList,
 } from './queries';
 
 type ResourceIteratee<T> = (each: T) => Promise<void> | void;
@@ -78,6 +80,26 @@ class MicrosoftConfigurationManagerClient {
       this.connection.query(
         buildCollectionSubscriptionQuery(this.dbName, tableName),
       ),
+    );
+
+    for (const record of result.recordset) {
+      await iteratee(record);
+    }
+  }
+
+  async listLegacyApplications<T>(iteratee: ResourceIteratee<T>) {
+    const result = await this.wrapWithRequestFailedHandler(() =>
+      this.connection.query(buildLegacyApplicationList(this.dbName)),
+    );
+
+    for (const record of result.recordset) {
+      await iteratee(record);
+    }
+  }
+
+  async listLocalUsers<T>(iteratee: ResourceIteratee<T>) {
+    const result = await this.wrapWithRequestFailedHandler(() =>
+      this.connection.query(buildLocalUserList(this.dbName)),
     );
 
     for (const record of result.recordset) {
