@@ -1,3 +1,15 @@
+# v0.4.0 (Thu Sep 07 2023)
+
+#### 🚀 Enhancement
+
+- Int 9065 - Adding legacy applications and local users [#5](https://github.com/JupiterOne/graph-microsoft-configuration-manager/pull/5) ([@adam-in-ict](https://github.com/adam-in-ict))
+
+#### Authors: 1
+
+- Adam Pierson ([@adam-in-ict](https://github.com/adam-in-ict))
+
+---
+
 # v0.3.0 (Tue Sep 05 2023)
 
 #### 🚀 Enhancement
