@@ -2,20 +2,15 @@
 
 ## Integration Benefits
 
-TODO: Iterate the benefits of ingesting data from the provider into JupiterOne.
-Consider the following examples:
-
-- Visualize {{provider}} services, teams, and users in the JupiterOne graph.
-- Map {{provider}} users to employees in your JupiterOne account.
-- Monitor changes to {{provider}} users using JupiterOne alerts.
+- Visualize your Microsoft Configuration Manager devices, device collections,
+  and local users in the JupiterOne graph.
+- Monitor changes to Microsoft Configuration Manager devices using JupiterOne
+  alerts.
 
 ## How it Works
 
-TODO: Iterate significant activities the integration enables. Consider the
-following examples:
-
-- JupiterOne periodically fetches services, teams, and users from {{provider}}
-  to update the graph.
+- JupiterOne periodically fetches devices, device collections, and local users
+  from Microsoft Configuration Manager to update the graph.
 - Write JupiterOne queries to review and monitor updates to the graph, or
   leverage existing queries.
 - Configure alerts to take action when JupiterOne graph changes, or leverage
@@ -23,14 +18,12 @@ following examples:
 
 ## Prerequisites
 
-TODO: Iterate requirements for setting up the integration. Consider the
-following examples:
-
-- {{provider}} supports the OAuth2 Client Credential flow. You must have a
-  Administrator user account.
-- JupiterOne requires a REST API key. You need permission to create a user in
-  {{provider}} that is used to obtain the API key.
-- You must have permission in JupiterOne to install new integrations.
+- JupiterOne uses a connection to the Microsoft SQL server that hosts data for
+  Microsoft Configuration Manager to pull data.
+- If you have the ability to log into the database, it is strongly recommended
+  that a user create an account specifically for JupiterOne to use.
+- At a minimum, login credentials for an account that includes `public` and
+  `db_datareader` permissions will be needed.
 
 ## Support
 
@@ -39,44 +32,37 @@ If you need help with this integration, contact
 
 ## How to Use This Integration
 
-### In {{provider}}
+### In the Microsoft Configuration Manager SQL Database
 
-TODO: List specific actions that must be taken in the provider. Remove this
-section when there are no actions to take in the provider.
+1. In the object explorer, open the "Security" folder.
+2. Right-click on "Logins" and select "New Login..."
+3. Create a user using the following steps:
 
-1. [Generate a REST API key](https://example.com/docs/generating-api-keys)
+- Enter the login name `j1int`.
+- Select "SQL Server Authentication".
+- Create a password.
+- Set the default database to your Microsoft Configuration Manager database
+- Navigate to the "User Mapping" page.
+- Check the "Map" box for the Microsoft Configuration Manager database row.
+- Ensure that both `public` and `db_datareader` are checked under "Database role
+  membership for: " the Microsoft Configuration Manager database.
+- Click "OK".
 
 ### In JupiterOne
 
-TODO: List specific actions that the user must take in JupiterOne. Many of the
-following steps will be reusable; take care to be sure they remain accurate.
+1. From the top-bar menu, select Integrations.
+2. Scroll to, or search for, the Microsoft Configuration Manager (SCCM)
+   integration tile and click it.
+3. Click the New Instance button and configure the settings:
 
-1. From the top navigation of the J1 Search homepage, select **Integrations**.
-2. Scroll down to **{{provider}}** and click it.
-3. Click **Add Configuration** and configure the following settings:
+- Enter the Host for the Microsoft Configuration Manager database.
+- Enter the Database name.
+- Enter the login name for the account to be used for SQL data retrieval. (the
+  suggested name is `j1int`).
+- Enter the password for the account to be used for SQL data retrieval.
+- Enter in a name and description for the integration instance.
 
-- Enter the account name by which you want to identify this {{provider}} account
-  in JupiterOne. Select **Tag with Account Name** to store this value in
-  `tag.AccountName` of the ingested assets.
-- Enter a description to help your team identify the integration.
-- Select a polling interval that is sufficient for your monitoring requirements.
-  You can leave this as `DISABLED` and manually execute the integration.
-- {{additional provider-specific settings}} Enter the {{provider}} API key
-  generated for use by JupiterOne.
-
-4. Click **Create Configuration** after you have entered all the values.
-
-## How to Uninstall
-
-TODO: List specific actions that must be taken to uninstall the integration.
-Many of the following steps will be reusable; take care to be sure they remain
-accurate.
-
-1. From the top navigation of the J1 Search homepage, select **Integrations**.
-2. Scroll down to **{{provider}}** and click it.
-3. Identify and click the **integration to delete**.
-4. Click the trash can icon.
-5. Click **Remove** to delete the integration.
+4. Click the Create button to complete the integration.
 
 <!-- {J1_DOCUMENTATION_MARKER_START} -->
 <!--
