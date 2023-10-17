@@ -2,6 +2,10 @@
   "name": "@jupiterone/graph-microsoft-configuration-manager",
   "version": "0.4.0",
   "description": "An integration and graph conversion project for Microsoft Configuration Manager",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/JupiterOne/graph-microsoft-configuration-manager"
+  },
   "license": "MPL-2.0",
   "main": "src/index.js",
   "types": "src/index.d.ts",

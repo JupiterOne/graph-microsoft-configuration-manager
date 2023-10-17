@@ -1,0 +1,14 @@
+openapi: 3.0.1
+info:
+  title: '@jupiterone/graph-microsoft-configuration-manager'
+  description: >-
+    An integration and graph conversion project for Microsoft Configuration
+    Manager
+  x-cortex-git:
+    github:
+      repository: JupiterOne/graph-microsoft-configuration-manager
+  x-cortex-owners:
+    - type: group
+      name: JupiterOne/integrations
+  x-cortex-service-groups: tier-4
+  x-cortex-tag: '@jupiterone/graph-microsoft-configuration-manager'
