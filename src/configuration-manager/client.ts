@@ -139,8 +139,12 @@ async function createClient({
   dbPassword,
   onRequestFailed,
 }: CreateClientParams): Promise<MicrosoftConfigurationManagerClient> {
+  const url = new URL(dbHost);
+  const server = url.host;
+  const port = url.port !== '' ? Number.parseInt(url.port, 10) : undefined;
   const pool = await sql.connect({
-    server: dbHost,
+    server,
+    port,
     user: dbUsername,
     password: dbPassword,
     database: dbName,
