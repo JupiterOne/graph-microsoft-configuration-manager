@@ -1,3 +1,32 @@
+# v0.4.0 (Thu May 23 2024)
+
+#### 🚀 Enhancement
+
+- Parse port from provided host [#9](https://github.com/JupiterOne/graph-microsoft-configuration-manager/pull/9) ([@zemberdotnet](https://github.com/zemberdotnet))
+- Int 9065 - Adding legacy applications and local users [#5](https://github.com/JupiterOne/graph-microsoft-configuration-manager/pull/5) ([@adam-in-ict](https://github.com/adam-in-ict))
+
+#### 🐛 Bug Fix
+
+- Update Dockerfile [#8](https://github.com/JupiterOne/graph-microsoft-configuration-manager/pull/8) ([@zemberdotnet](https://github.com/zemberdotnet))
+- Change dockerfile to make compatible with collectors [#7](https://github.com/JupiterOne/graph-microsoft-configuration-manager/pull/7) (gonzaloavalosribas@Gonzalos-MacBook-Pro.local)
+- INT-9068 - Updating documentation [#6](https://github.com/JupiterOne/graph-microsoft-configuration-manager/pull/6) ([@adam-in-ict](https://github.com/adam-in-ict))
+
+#### ⚠️ Pushed to `main`
+
+- Apply remove-codeql with multi-gitter [ci skip] ([@electricgull](https://github.com/electricgull))
+- Fix x-cortex-service-groups where tier-4 was set incorrectly ([@jablonnc](https://github.com/jablonnc))
+- Populate CODEOWENRS, baseline package.json and baseline cortex.yaml ([@jablonnc](https://github.com/jablonnc))
+
+#### Authors: 5
+
+- Adam Pierson ([@adam-in-ict](https://github.com/adam-in-ict))
+- Cameron Griffin ([@electricgull](https://github.com/electricgull))
+- Gonzalo Avalos Ribas ([@Gonzalo-Avalos-Ribas](https://github.com/Gonzalo-Avalos-Ribas))
+- Matthew Zember ([@zemberdotnet](https://github.com/zemberdotnet))
+- Noah Jablonski ([@jablonnc](https://github.com/jablonnc))
+
+---
+
 # v0.4.0 (Thu Apr 25 2024)
 
 #### 🚀 Enhancement
