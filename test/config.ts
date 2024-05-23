@@ -11,7 +11,7 @@ if (process.env.LOAD_ENV) {
   });
 }
 
-const DEFAULT_HOST = 'test_host';
+const DEFAULT_HOST = 'localhost';
 const DEFAULT_DATABASE = 'test_db';
 const DEFAULT_USERNAME = 'test_username';
 const DEFAULT_PASSWORD = 'fakepassword';
