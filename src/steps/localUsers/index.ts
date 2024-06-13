@@ -34,11 +34,16 @@ export async function fetchLocalUsers({
   );
 
   await client.listLocalUsers(async (user: any) => {
-    const userEntity = await jobState.addEntity(createLocalUserEntity(user));
+    const userEntity = createLocalUserEntity(user);
+
+    if (!jobState.hasKey(userEntity._key)) {
+      await jobState.addEntity(userEntity);
+    }
 
     const deviceEntity = await jobState.findEntity(
       createDeviceKey(user.ResourceID),
     );
+
     if (deviceEntity) {
       await jobState.addRelationship(
         createDeviceLocalUserRelationship(deviceEntity, userEntity),
