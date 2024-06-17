@@ -52,20 +52,24 @@ export async function fetchLegacyApplications({
   );
 
   await client.listLegacyApplications(async (application: any) => {
-    const applicationEntity = await jobState.addEntity(
-      createLegacyApplicationEntity(application),
-    );
-    const deviceID = createDeviceKey(application.ResourceID?.toString());
-    const deviceEntity = await jobState.findEntity(deviceID);
-    if (applicationEntity && deviceEntity) {
-      await jobState.addRelationship(
-        createDeviceApplicationRelationship(deviceEntity, applicationEntity),
+    const legacyApplicationEntity = createLegacyApplicationEntity(application);
+
+    if (!jobState.hasKey(legacyApplicationEntity._key)) {
+      const applicationEntity = await jobState.addEntity(
+        legacyApplicationEntity,
       );
-    } else {
-      logger.info(
-        { deviceID },
-        `Unable to create relationship between legacy application and device.`,
-      );
+      const deviceID = createDeviceKey(application.ResourceID?.toString());
+      const deviceEntity = await jobState.findEntity(deviceID);
+      if (applicationEntity && deviceEntity) {
+        await jobState.addRelationship(
+          createDeviceApplicationRelationship(deviceEntity, applicationEntity),
+        );
+      } else {
+        logger.info(
+          { deviceID },
+          `Unable to create relationship between legacy application and device.`,
+        );
+      }
     }
   });
 }
