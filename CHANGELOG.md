@@ -1,3 +1,15 @@
+# v0.8.1 (Mon Jun 17 2024)
+
+#### 🐛 Bug Fix
+
+- INT-11148: fix additional duplicate keys [#11](https://github.com/JupiterOne/graph-microsoft-configuration-manager/pull/11) ([@gastonyelmini](https://github.com/gastonyelmini))
+
+#### Authors: 1
+
+- Gaston Yelmini ([@gastonyelmini](https://github.com/gastonyelmini))
+
+---
+
 # v0.4.0 (Thu Jun 13 2024)
 
 #### 🚀 Enhancement
