@@ -2,6 +2,19 @@
 
 #### 🐛 Bug Fix
 
+- INT-11148: fix GH action [#13](https://github.com/JupiterOne/graph-microsoft-configuration-manager/pull/13) ([@gastonyelmini](https://github.com/gastonyelmini))
+- INT-11148: fix deployment GH action [#12](https://github.com/JupiterOne/graph-microsoft-configuration-manager/pull/12) ([@gastonyelmini](https://github.com/gastonyelmini))
+
+#### Authors: 1
+
+- Gaston Yelmini ([@gastonyelmini](https://github.com/gastonyelmini))
+
+---
+
+# v0.8.2 (Mon Jun 17 2024)
+
+#### 🐛 Bug Fix
+
 - INT-11148: fix deployment GH action [#12](https://github.com/JupiterOne/graph-microsoft-configuration-manager/pull/12) ([@gastonyelmini](https://github.com/gastonyelmini))
 
 #### Authors: 1
