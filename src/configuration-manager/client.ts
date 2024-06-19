@@ -156,6 +156,7 @@ async function createClient({
       trustedConnection: true,
       encrypt: false, // for azure
       trustServerCertificate: true, // change to true for local dev / self-signed certs
+      requestTimeout: 60000,
     },
   });
 
