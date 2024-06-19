@@ -1,3 +1,15 @@
+# v0.8.4 (Wed Jun 19 2024)
+
+#### 🐛 Bug Fix
+
+- INT-11148: increase sql timeout [#14](https://github.com/JupiterOne/graph-microsoft-configuration-manager/pull/14) ([@gastonyelmini](https://github.com/gastonyelmini))
+
+#### Authors: 1
+
+- Gaston Yelmini ([@gastonyelmini](https://github.com/gastonyelmini))
+
+---
+
 # v0.8.2 (Mon Jun 17 2024)
 
 #### 🐛 Bug Fix
