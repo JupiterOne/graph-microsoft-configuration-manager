@@ -1,4 +1,4 @@
-function buildDeviceListQuery(dbName: string) {
+function buildDeviceListQuery(dbName: string, offset: number, limit: number) {
   validateDbName(dbName);
 
   return `SELECT [ResourceID]
@@ -67,10 +67,18 @@ function buildDeviceListQuery(dbName: string) {
       ,[Virtual_Machine_Type0]
       ,[WipeStatus0]
       ,[WTGUniqueKey]
-  FROM [${dbName}].[dbo].[v_R_System]`;
+  FROM (
+    SELECT ROW_NUMBER() OVER (ORDER BY [ResourceID]) AS RowNum, *
+    FROM [${dbName}].[dbo].[v_R_System]
+  ) AS Sub
+  WHERE Sub.RowNum BETWEEN ${offset} AND ${offset + limit - 1}`;
 }
 
-function buildApplicationListQuery(dbName: string) {
+function buildApplicationListQuery(
+  dbName: string,
+  offset: number,
+  limit: number,
+) {
   validateDbName(dbName);
 
   return `SELECT [ModelName]
@@ -84,25 +92,39 @@ function buildApplicationListQuery(dbName: string) {
     ,[IsUserContext]
     ,[ModelId]
     ,[ObjectTypeID]
-  FROM [${dbName}].[dbo].[v_Applications]`;
+  FROM (
+    SELECT ROW_NUMBER() OVER (ORDER BY [ModelName]) AS RowNum, *
+    FROM [${dbName}].[dbo].[v_Applications]
+  ) AS Sub
+  WHERE Sub.RowNum BETWEEN ${offset} AND ${offset + limit - 1}`;
 }
 
-function buildApplicationDeviceTargetingList(dbName: string) {
+function buildApplicationDeviceTargetingList(
+  dbName: string,
+  offset: number,
+  limit: number,
+) {
   validateDbName(dbName);
 
   return `SELECT [ModelName]
-  ,[CIGUID]
-  ,[ResourceID]
-  ,[Username]
-  ,[CIVersion]
-  ,[OfferTypeID]
-  ,[Deadline]
-  ,[Capabilities]
-  ,[ObjectTypeID]
-FROM [${dbName}].[dbo].[v_DeviceApplicationTargeting]`;
+      ,[CIGUID]
+      ,[ResourceID]
+      ,[Username]
+      ,[CIVersion]
+      ,[OfferTypeID]
+      ,[Deadline]
+      ,[Capabilities]
+      ,[ObjectTypeID]
+  FROM [${dbName}].[dbo].[v_DeviceApplicationTargeting]
+  ORDER BY [ResourceID]
+  OFFSET ${offset} ROWS FETCH NEXT ${limit} ROWS ONLY`;
 }
 
-function buildDeviceCollectionQuery(dbName: string) {
+function buildDeviceCollectionQuery(
+  dbName: string,
+  offset: number,
+  limit: number,
+) {
   validateDbName(dbName);
 
   return `SELECT [CollectionID]
@@ -152,143 +174,158 @@ function buildDeviceCollectionQuery(dbName: string) {
     ,[IncrementalEvaluationMemberChanges]
     ,[IncrementalEvaluationMemberChangeTime]
     ,[IncrementalEvaluationLastRefreshTime]
-  FROM [${dbName}].[dbo].[v_Collections]
-  WHERE CollectionType = 2`;
+  FROM (
+    SELECT ROW_NUMBER() OVER (ORDER BY [CollectionID]) AS RowNum, *
+    FROM [${dbName}].[dbo].[v_Collections]
+    WHERE CollectionType = 2
+  ) AS Sub
+  WHERE Sub.RowNum BETWEEN ${offset} AND ${offset + limit - 1}`;
 }
 
-function buildCollectionSubscriptionQuery(dbName: string, tableName: string) {
+function buildCollectionSubscriptionQuery(
+  dbName: string,
+  tableName: string,
+  offset: number,
+  limit: number,
+) {
   validateDbName(dbName);
 
   return `SELECT [MachineID]
-  ,[ArchitectureKey]
-  ,[Name]
-  ,[SMSID]
-  ,[SiteCode]
-  ,[Domain]
-  ,[ClientEdition]
-  ,[ClientType]
-  ,[ClientVersion]
-  ,[IsDirect]
-  ,[IsAssigned]
-  ,[IsClient]
-  ,[IsVirtualMachine]
-  ,[IsAOACCapable]
-  ,[IsObsolete]
-  ,[IsActive]
-  ,[IsDecommissioned]
-  ,[WipeStatus]
-  ,[RetireStatus]
-  ,[SyncNowStatus]
-  ,[LastSyncNowRequest]
-  ,[ManagementAuthority]
-  ,[AMTStatus]
-  ,[AMTFullVersion]
-  ,[DeviceOwner]
-  ,[DeviceCategory]
-  ,[SuppressAutoProvision]
-  ,[IsApproved]
-  ,[IsBlocked]
-  ,[IsAlwaysInternet]
-  ,[IsInternetEnabled]
-  ,[ClientCertType]
-  ,[UserName]
-  ,[LastClientCheckTime]
-  ,[ClientCheckPass]
-  ,[ADSiteName]
-  ,[UserDomainName]
-  ,[ADLastLogonTime]
-  ,[ClientRemediationSuccess]
-  ,[ClientActiveStatus]
-  ,[LastStatusMessage]
-  ,[LastPolicyRequest]
-  ,[LastDDR]
-  ,[LastHardwareScan]
-  ,[LastSoftwareScan]
-  ,[LastMPServerName]
-  ,[LastActiveTime]
-  ,[CP_Status]
-  ,[CP_LatestProcessingAttempt]
-  ,[CP_LastInstallationError]
-  ,[EAS_DeviceID]
-  ,[DeviceOS]
-  ,[DeviceOSBuild]
-  ,[DeviceType]
-  ,[ExchangeServer]
-  ,[ExchangeOrganization]
-  ,[PolicyApplicationStatus]
-  ,[LastSuccessSyncTimeUTC]
-  ,[PhoneNumber]
-  ,[DeviceAccessState]
-  ,[DeviceThreatLevel]
-  ,[CoManaged]
-  ,[PasscodeResetState]
-  ,[PasscodeResetStateTimeStamp]
-  ,[RemoteLockState]
-  ,[RemoteLockStateTimeStamp]
-  ,[ActivationLockBypassState]
-  ,[ActivationLockBypassStateTimeStamp]
-  ,[ActivationLockState]
-  ,[IsSupervised]
-  ,[EP_DeploymentState]
-  ,[EP_DeploymentErrorCode]
-  ,[EP_DeploymentDescription]
-  ,[EP_PolicyApplicationState]
-  ,[EP_PolicyApplicationErrorCode]
-  ,[EP_PolicyApplicationDescription]
-  ,[EP_Enabled]
-  ,[EP_ClientVersion]
-  ,[EP_ProductStatus]
-  ,[EP_EngineVersion]
-  ,[EP_AntivirusEnabled]
-  ,[EP_AntivirusSignatureVersion]
-  ,[EP_AntivirusSignatureUpdateDateTime]
-  ,[EP_AntispywareEnabled]
-  ,[EP_AntispywareSignatureVersion]
-  ,[EP_AntispywareSignatureUpdateDateTime]
-  ,[EP_LastFullScanDateTimeStart]
-  ,[EP_LastFullScanDateTimeEnd]
-  ,[EP_LastQuickScanDateTimeStart]
-  ,[EP_LastQuickScanDateTimeEnd]
-  ,[EP_InfectionStatus]
-  ,[EP_PendingFullScan]
-  ,[EP_PendingReboot]
-  ,[EP_PendingManualSteps]
-  ,[EP_PendingOfflineScan]
-  ,[EP_LastInfectionTime]
-  ,[EP_LastThreatName]
-  ,[CNIsOnline]
-  ,[CNLastOnlineTime]
-  ,[CNLastOfflineTime]
-  ,[ClientState]
-  ,[CNAccessMP]
-  ,[CNIsOnInternet]
-  ,[Unknown]
-  ,[ATP_LastConnected]
-  ,[ATP_SenseIsRunning]
-  ,[ATP_OnboardingState]
-  ,[ATP_OrgId]
-  ,[CA_IsCompliant]
-  ,[CA_ComplianceSetTime]
-  ,[CA_ComplianceEvalTime]
-  ,[CA_ErrorDetails]
-  ,[CA_ErrorLocation]
-  ,[AADTenantID]
-  ,[AADDeviceID]
-  ,[SerialNumber]
-  ,[IMEI]
-  ,[PrimaryUser]
-  ,[CurrentlogonUser]
-  ,[LastLogonUser]
-  ,[MACAddress]
-  ,[SMBIOSGUID]
-  ,[IsMDMActive]
-  ,[SenseID]
-  ,[BoundaryGroups]
-  ,[LastFUErrorDetail]
-FROM [${dbName}].[dbo].[${tableName}]`;
+      ,[ArchitectureKey]
+      ,[Name]
+      ,[SMSID]
+      ,[SiteCode]
+      ,[Domain]
+      ,[ClientEdition]
+      ,[ClientType]
+      ,[ClientVersion]
+      ,[IsDirect]
+      ,[IsAssigned]
+      ,[IsClient]
+      ,[IsVirtualMachine]
+      ,[IsAOACCapable]
+      ,[IsObsolete]
+      ,[IsActive]
+      ,[IsDecommissioned]
+      ,[WipeStatus]
+      ,[RetireStatus]
+      ,[SyncNowStatus]
+      ,[LastSyncNowRequest]
+      ,[ManagementAuthority]
+      ,[AMTStatus]
+      ,[AMTFullVersion]
+      ,[DeviceOwner]
+      ,[DeviceCategory]
+      ,[SuppressAutoProvision]
+      ,[IsApproved]
+      ,[IsBlocked]
+      ,[IsAlwaysInternet]
+      ,[IsInternetEnabled]
+      ,[ClientCertType]
+      ,[UserName]
+      ,[LastClientCheckTime]
+      ,[ClientCheckPass]
+      ,[ADSiteName]
+      ,[UserDomainName]
+      ,[ADLastLogonTime]
+      ,[ClientRemediationSuccess]
+      ,[ClientActiveStatus]
+      ,[LastStatusMessage]
+      ,[LastPolicyRequest]
+      ,[LastDDR]
+      ,[LastHardwareScan]
+      ,[LastSoftwareScan]
+      ,[LastMPServerName]
+      ,[LastActiveTime]
+      ,[CP_Status]
+      ,[CP_LatestProcessingAttempt]
+      ,[CP_LastInstallationError]
+      ,[EAS_DeviceID]
+      ,[DeviceOS]
+      ,[DeviceOSBuild]
+      ,[DeviceType]
+      ,[ExchangeServer]
+      ,[ExchangeOrganization]
+      ,[PolicyApplicationStatus]
+      ,[LastSuccessSyncTimeUTC]
+      ,[PhoneNumber]
+      ,[DeviceAccessState]
+      ,[DeviceThreatLevel]
+      ,[CoManaged]
+      ,[PasscodeResetState]
+      ,[PasscodeResetStateTimeStamp]
+      ,[RemoteLockState]
+      ,[RemoteLockStateTimeStamp]
+      ,[ActivationLockBypassState]
+      ,[ActivationLockBypassStateTimeStamp]
+      ,[ActivationLockState]
+      ,[IsSupervised]
+      ,[EP_DeploymentState]
+      ,[EP_DeploymentErrorCode]
+      ,[EP_DeploymentDescription]
+      ,[EP_PolicyApplicationState]
+      ,[EP_PolicyApplicationErrorCode]
+      ,[EP_PolicyApplicationDescription]
+      ,[EP_Enabled]
+      ,[EP_ClientVersion]
+      ,[EP_ProductStatus]
+      ,[EP_EngineVersion]
+      ,[EP_AntivirusEnabled]
+      ,[EP_AntivirusSignatureVersion]
+      ,[EP_AntivirusSignatureUpdateDateTime]
+      ,[EP_AntispywareEnabled]
+      ,[EP_AntispywareSignatureVersion]
+      ,[EP_AntispywareSignatureUpdateDateTime]
+      ,[EP_LastFullScanDateTimeStart]
+      ,[EP_LastFullScanDateTimeEnd]
+      ,[EP_LastQuickScanDateTimeStart]
+      ,[EP_LastQuickScanDateTimeEnd]
+      ,[EP_InfectionStatus]
+      ,[EP_PendingFullScan]
+      ,[EP_PendingReboot]
+      ,[EP_PendingManualSteps]
+      ,[EP_PendingOfflineScan]
+      ,[EP_LastInfectionTime]
+      ,[EP_LastThreatName]
+      ,[CNIsOnline]
+      ,[CNLastOnlineTime]
+      ,[CNLastOfflineTime]
+      ,[ClientState]
+      ,[CNAccessMP]
+      ,[CNIsOnInternet]
+      ,[Unknown]
+      ,[ATP_LastConnected]
+      ,[ATP_SenseIsRunning]
+      ,[ATP_OnboardingState]
+      ,[ATP_OrgId]
+      ,[CA_IsCompliant]
+      ,[CA_ComplianceSetTime]
+      ,[CA_ComplianceEvalTime]
+      ,[CA_ErrorDetails]
+      ,[CA_ErrorLocation]
+      ,[AADTenantID]
+      ,[AADDeviceID]
+      ,[SerialNumber]
+      ,[IMEI]
+      ,[PrimaryUser]
+      ,[CurrentlogonUser]
+      ,[LastLogonUser]
+      ,[MACAddress]
+      ,[SMBIOSGUID]
+      ,[IsMDMActive]
+      ,[SenseID]
+      ,[BoundaryGroups]
+      ,[LastFUErrorDetail]
+  FROM [${dbName}].[dbo].[${tableName}]
+  ORDER BY [MachineID]
+  OFFSET ${offset} ROWS FETCH NEXT ${limit} ROWS ONLY`;
 }
 
-function buildLegacyApplicationList(dbName: string) {
+function buildLegacyApplicationList(
+  dbName: string,
+  offset: number,
+  limit: number,
+) {
   validateDbName(dbName);
 
   return `SELECT [ResourceID]
@@ -301,7 +338,9 @@ function buildLegacyApplicationList(dbName: string) {
         ,[ProdID0]
         ,[Publisher0]
         ,[Version0]
-    FROM [${dbName}].[dbo].[v_GS_ADD_REMOVE_PROGRAMS]`;
+    FROM [${dbName}].[dbo].[v_GS_ADD_REMOVE_PROGRAMS]
+    ORDER BY [ResourceID]
+    OFFSET ${offset} ROWS FETCH NEXT ${limit} ROWS ONLY`;
 }
 
 // TODO this gives us some information we need, but unsure how we
@@ -337,10 +376,10 @@ function buildApplicationLastUsedList(dbName: string) {
   FROM [${dbName}].[dbo].[v_GS_CCM_RECENTLY_USED_APPS]`;
 }
 
-function buildLocalUserList(dbName: string) {
+function buildLocalUserList(dbName: string, offset: number, limit: number) {
   validateDbName(dbName);
 
-  return `SELECT TOP (1000) [ResourceID]
+  return `SELECT [ResourceID]
       ,[GroupID]
       ,[RevisionID]
       ,[AgentID]
@@ -361,7 +400,11 @@ function buildLocalUserList(dbName: string) {
       ,[SID0]
       ,[Special0]
       ,[Status0]
-  FROM [${dbName}].[dbo].[v_GS_USER_PROFILE]`;
+  FROM (
+      SELECT ROW_NUMBER() OVER (ORDER BY [ResourceID]) AS RowNum, *
+      FROM [${dbName}].[dbo].[v_GS_USER_PROFILE]
+  ) AS Sub
+  WHERE Sub.RowNum BETWEEN ${offset} AND ${offset + limit - 1}`;
 }
 
 function validateDbName(dbName: string) {

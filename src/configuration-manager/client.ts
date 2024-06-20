@@ -8,6 +8,7 @@ import {
   buildLegacyApplicationList,
   buildLocalUserList,
 } from './queries';
+import pMap from 'p-map';
 
 type ResourceIteratee<T> = (each: T) => Promise<void> | void;
 
@@ -32,78 +33,228 @@ class MicrosoftConfigurationManagerClient {
     this.onRequestFailed = onRequestFailed;
   }
 
-  async listDevices<T>(iteratee: ResourceIteratee<T>) {
-    const result = await this.wrapWithRequestFailedHandler(() =>
-      this.connection.query(buildDeviceListQuery(this.dbName)),
-    );
+  async listDevices<T>(iteratee: ResourceIteratee<T>, pageSize: number = 1000) {
+    let offset = 0;
+    let hasMoreRecords = true;
 
-    for (const record of result.recordset) {
-      await iteratee(record);
+    while (hasMoreRecords) {
+      const query = buildDeviceListQuery(this.dbName, offset, pageSize);
+      const result = await this.wrapWithRequestFailedHandler(() =>
+        this.connection.query(query),
+      );
+
+      const records = result.recordset;
+      if (records.length > 0) {
+        await pMap(
+          records,
+          async (record) => {
+            await iteratee(record);
+          },
+          {
+            concurrency: 2,
+          },
+        );
+
+        offset += pageSize;
+      } else {
+        hasMoreRecords = false;
+      }
     }
   }
 
-  async listApplications<T>(iteratee: ResourceIteratee<T>) {
-    const result = await this.wrapWithRequestFailedHandler(() =>
-      this.connection.query(buildApplicationListQuery(this.dbName)),
-    );
+  async listApplications<T>(
+    iteratee: ResourceIteratee<T>,
+    pageSize: number = 1000,
+  ) {
+    let offset = 0;
+    let hasMoreRecords = true;
 
-    for (const record of result.recordset) {
-      await iteratee(record);
+    while (hasMoreRecords) {
+      const query = buildApplicationListQuery(this.dbName, offset, pageSize);
+      const result = await this.wrapWithRequestFailedHandler(() =>
+        this.connection.query(query),
+      );
+
+      const records = result.recordset;
+      if (records.length > 0) {
+        await pMap(
+          records,
+          async (record) => {
+            await iteratee(record);
+          },
+          {
+            concurrency: 2,
+          },
+        );
+        offset += pageSize;
+      } else {
+        hasMoreRecords = false;
+      }
     }
   }
 
-  async listApplicationDeviceTargets<T>(iteratee: ResourceIteratee<T>) {
-    const result = await this.wrapWithRequestFailedHandler(() =>
-      this.connection.query(buildApplicationDeviceTargetingList(this.dbName)),
-    );
+  async listApplicationDeviceTargets<T>(
+    iteratee: ResourceIteratee<T>,
+    pageSize: number = 1000,
+  ) {
+    let offset = 0;
+    let hasMoreRecords = true;
 
-    for (const record of result.recordset) {
-      await iteratee(record);
+    while (hasMoreRecords) {
+      const query = buildApplicationDeviceTargetingList(
+        this.dbName,
+        offset,
+        pageSize,
+      );
+      const result = await this.wrapWithRequestFailedHandler(() =>
+        this.connection.query(query),
+      );
+
+      const records = result.recordset;
+      if (records.length > 0) {
+        await pMap(
+          records,
+          async (record) => {
+            await iteratee(record);
+          },
+          {
+            concurrency: 2,
+          },
+        );
+        offset += pageSize;
+      } else {
+        hasMoreRecords = false;
+      }
     }
   }
 
-  async listCollections<T>(iteratee: ResourceIteratee<T>) {
-    const result = await this.wrapWithRequestFailedHandler(() =>
-      this.connection.query(buildDeviceCollectionQuery(this.dbName)),
-    );
+  async listCollections<T>(
+    iteratee: ResourceIteratee<T>,
+    pageSize: number = 1000,
+  ) {
+    let offset = 0;
+    let hasMoreRecords = true;
 
-    for (const record of result.recordset) {
-      await iteratee(record);
+    while (hasMoreRecords) {
+      const query = buildDeviceCollectionQuery(this.dbName, offset, pageSize);
+      const result = await this.wrapWithRequestFailedHandler(() =>
+        this.connection.query(query),
+      );
+
+      const records = result.recordset;
+      if (records.length > 0) {
+        await pMap(
+          records,
+          async (record) => {
+            await iteratee(record);
+          },
+          {
+            concurrency: 2,
+          },
+        );
+        offset += pageSize;
+      } else {
+        hasMoreRecords = false;
+      }
     }
   }
 
   async listCollectionSubscriptions<T>(
     tableName: string,
     iteratee: ResourceIteratee<T>,
+    pageSize: number = 1000,
   ) {
-    const result = await this.wrapWithRequestFailedHandler(() =>
-      this.connection.query(
-        buildCollectionSubscriptionQuery(this.dbName, tableName),
-      ),
-    );
+    let offset = 0;
+    let hasMoreRecords = true;
 
-    for (const record of result.recordset) {
-      await iteratee(record);
+    while (hasMoreRecords) {
+      const query = buildCollectionSubscriptionQuery(
+        this.dbName,
+        tableName,
+        offset,
+        pageSize,
+      );
+      const result = await this.wrapWithRequestFailedHandler(() =>
+        this.connection.query(query),
+      );
+
+      const records = result.recordset;
+      if (records.length > 0) {
+        await pMap(
+          records,
+          async (record) => {
+            await iteratee(record);
+          },
+          {
+            concurrency: 2,
+          },
+        );
+        offset += pageSize;
+      } else {
+        hasMoreRecords = false;
+      }
     }
   }
 
-  async listLegacyApplications<T>(iteratee: ResourceIteratee<T>) {
-    const result = await this.wrapWithRequestFailedHandler(() =>
-      this.connection.query(buildLegacyApplicationList(this.dbName)),
-    );
+  async listLegacyApplications<T>(
+    iteratee: ResourceIteratee<T>,
+    pageSize: number = 1000,
+  ) {
+    let offset = 0;
+    let hasMoreRecords = true;
 
-    for (const record of result.recordset) {
-      await iteratee(record);
+    while (hasMoreRecords) {
+      const query = buildLegacyApplicationList(this.dbName, offset, pageSize);
+      const result = await this.wrapWithRequestFailedHandler(() =>
+        this.connection.query(query),
+      );
+
+      const records = result.recordset;
+      if (records.length > 0) {
+        await pMap(
+          records,
+          async (record) => {
+            await iteratee(record);
+          },
+          {
+            concurrency: 2,
+          },
+        );
+        offset += pageSize;
+      } else {
+        hasMoreRecords = false;
+      }
     }
   }
 
-  async listLocalUsers<T>(iteratee: ResourceIteratee<T>) {
-    const result = await this.wrapWithRequestFailedHandler(() =>
-      this.connection.query(buildLocalUserList(this.dbName)),
-    );
+  async listLocalUsers<T>(
+    iteratee: ResourceIteratee<T>,
+    pageSize: number = 1000,
+  ) {
+    let offset = 0;
+    let hasMoreRecords = true;
 
-    for (const record of result.recordset) {
-      await iteratee(record);
+    while (hasMoreRecords) {
+      const query = buildLocalUserList(this.dbName, offset, pageSize);
+      const result = await this.wrapWithRequestFailedHandler(() =>
+        this.connection.query(query),
+      );
+
+      const records = result.recordset;
+      if (records.length > 0) {
+        await pMap(
+          records,
+          async (record) => {
+            await iteratee(record);
+          },
+          {
+            concurrency: 2,
+          },
+        );
+        offset += pageSize;
+      } else {
+        hasMoreRecords = false;
+      }
     }
   }
 
