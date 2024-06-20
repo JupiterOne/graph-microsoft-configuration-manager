@@ -105,9 +105,14 @@ export async function buildApplicationRelationships({
     const applicationEntity = await jobState.findEntity(appID);
     const deviceEntity = await jobState.findEntity(deviceID);
     if (applicationEntity && deviceEntity) {
-      await jobState.addRelationship(
-        createDeviceApplicationRelationship(deviceEntity, applicationEntity),
+      const deviceApplicationRelationship = createDeviceApplicationRelationship(
+        deviceEntity,
+        applicationEntity,
       );
+
+      if (!jobState.hasKey(deviceApplicationRelationship._key)) {
+        await jobState.addRelationship(deviceApplicationRelationship);
+      }
     } else {
       logger.info(
         { appID, deviceID },
