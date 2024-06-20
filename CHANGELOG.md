@@ -1,3 +1,15 @@
+# v0.9.1 (Thu Jun 20 2024)
+
+#### 🐛 Bug Fix
+
+- INT-11148: add additional duplicate key check [#16](https://github.com/JupiterOne/graph-microsoft-configuration-manager/pull/16) ([@gastonyelmini](https://github.com/gastonyelmini))
+
+#### Authors: 1
+
+- Gaston Yelmini ([@gastonyelmini](https://github.com/gastonyelmini))
+
+---
+
 # v0.9.0 (Thu Jun 20 2024)
 
 #### 🚀 Enhancement
