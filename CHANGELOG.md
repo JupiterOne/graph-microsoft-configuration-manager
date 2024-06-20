@@ -1,3 +1,15 @@
+# v0.9.0 (Thu Jun 20 2024)
+
+#### 🚀 Enhancement
+
+- INT-11148: paginate all SQL queries [#15](https://github.com/JupiterOne/graph-microsoft-configuration-manager/pull/15) ([@gastonyelmini](https://github.com/gastonyelmini))
+
+#### Authors: 1
+
+- Gaston Yelmini ([@gastonyelmini](https://github.com/gastonyelmini))
+
+---
+
 # v0.8.4 (Wed Jun 19 2024)
 
 #### 🐛 Bug Fix
