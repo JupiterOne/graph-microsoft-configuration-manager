@@ -64,11 +64,6 @@ export async function fetchLegacyApplications({
         await jobState.addRelationship(
           createDeviceApplicationRelationship(deviceEntity, applicationEntity),
         );
-      } else {
-        logger.info(
-          { deviceID },
-          `Unable to create relationship between legacy application and device.`,
-        );
       }
     }
   });
@@ -113,11 +108,6 @@ export async function buildApplicationRelationships({
       if (!jobState.hasKey(deviceApplicationRelationship._key)) {
         await jobState.addRelationship(deviceApplicationRelationship);
       }
-    } else {
-      logger.info(
-        { appID, deviceID },
-        `Unable to create relationship between application and device.`,
-      );
     }
   });
 }

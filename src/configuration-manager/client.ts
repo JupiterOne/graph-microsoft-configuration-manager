@@ -95,7 +95,7 @@ class MicrosoftConfigurationManagerClient {
 
   async listApplicationDeviceTargets<T>(
     iteratee: ResourceIteratee<T>,
-    pageSize: number = 1000,
+    pageSize: number = 500,
   ) {
     let offset = 0;
     let hasMoreRecords = true;
