@@ -1,3 +1,15 @@
+# v0.9.3 (Fri Jun 21 2024)
+
+#### 🐛 Bug Fix
+
+- INT-11148: update page sizes [#19](https://github.com/JupiterOne/graph-microsoft-configuration-manager/pull/19) ([@gastonyelmini](https://github.com/gastonyelmini))
+
+#### Authors: 1
+
+- Gaston Yelmini ([@gastonyelmini](https://github.com/gastonyelmini))
+
+---
+
 # v0.9.2 (Fri Jun 21 2024)
 
 #### 🐛 Bug Fix
