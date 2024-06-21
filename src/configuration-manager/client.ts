@@ -95,7 +95,7 @@ class MicrosoftConfigurationManagerClient {
 
   async listApplicationDeviceTargets<T>(
     iteratee: ResourceIteratee<T>,
-    pageSize: number = 500,
+    pageSize: number = 600,
   ) {
     let offset = 0;
     let hasMoreRecords = true;
@@ -162,7 +162,7 @@ class MicrosoftConfigurationManagerClient {
   async listCollectionSubscriptions<T>(
     tableName: string,
     iteratee: ResourceIteratee<T>,
-    pageSize: number = 1000,
+    pageSize: number = 200,
   ) {
     let offset = 0;
     let hasMoreRecords = true;
