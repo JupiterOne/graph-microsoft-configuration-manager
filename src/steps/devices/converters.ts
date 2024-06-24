@@ -34,7 +34,7 @@ export function createDeviceEntity(device: any): Entity {
         model: null,
         serial: device.SerialNumber || null,
         serialNumber: device.SerialNumber || null,
-        aadDeviceId: device.AADDeviceId,
+        aadDeviceId: device.AADDeviceID,
         adSiteName: device.Active0,
         active: device.Active0 == true, // This appears to be 0/1 or true/false depending on the table used.  Deliberately picking double equals to make sure both work.
         clientVersion: device.Client_Version0,
