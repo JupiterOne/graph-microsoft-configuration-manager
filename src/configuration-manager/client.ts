@@ -271,10 +271,12 @@ class MicrosoftConfigurationManagerClient {
 
   private async wrapWithRequestFailedHandler<TResponse>(
     fn: () => Promise<TResponse>,
+    logger?: IntegrationLogger,
   ) {
     try {
       return await fn();
     } catch (err) {
+      logger?.error(`Received error from SQL query: ${err}`);
       throw this.onRequestFailed(err);
     }
   }
