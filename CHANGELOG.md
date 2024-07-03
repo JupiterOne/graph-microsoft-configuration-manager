@@ -1,3 +1,17 @@
+# v0.9.4 (Wed Jul 03 2024)
+
+#### 🐛 Bug Fix
+
+- INT-11156: add logger to application relationships step [#20](https://github.com/JupiterOne/graph-microsoft-configuration-manager/pull/20) ([@gastonyelmini](https://github.com/gastonyelmini))
+- POV-412: add aadDeviceId property to Devices [#17](https://github.com/JupiterOne/graph-microsoft-configuration-manager/pull/17) ([@ajahoda](https://github.com/ajahoda))
+
+#### Authors: 2
+
+- Aaron Jahoda ([@ajahoda](https://github.com/ajahoda))
+- Gaston Yelmini ([@gastonyelmini](https://github.com/gastonyelmini))
+
+---
+
 # v0.9.3 (Fri Jun 21 2024)
 
 #### 🐛 Bug Fix
