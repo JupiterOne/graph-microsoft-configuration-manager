@@ -9,6 +9,7 @@ import {
   buildLocalUserList,
 } from './queries';
 import pMap from 'p-map';
+import { IntegrationLogger } from '@jupiterone/integration-sdk-core';
 
 type ResourceIteratee<T> = (each: T) => Promise<void> | void;
 
@@ -96,6 +97,7 @@ class MicrosoftConfigurationManagerClient {
   async listApplicationDeviceTargets<T>(
     iteratee: ResourceIteratee<T>,
     pageSize: number = 600,
+    logger: IntegrationLogger,
   ) {
     let offset = 0;
     let hasMoreRecords = true;
@@ -111,6 +113,9 @@ class MicrosoftConfigurationManagerClient {
       );
 
       const records = result.recordset;
+
+      logger.info(`Proccesed ${records.length} records from query`);
+
       if (records.length > 0) {
         await pMap(
           records,
@@ -266,10 +271,12 @@ class MicrosoftConfigurationManagerClient {
 
   private async wrapWithRequestFailedHandler<TResponse>(
     fn: () => Promise<TResponse>,
+    logger?: IntegrationLogger,
   ) {
     try {
       return await fn();
     } catch (err) {
+      logger?.error(`Received error from SQL query: ${err}`);
       throw this.onRequestFailed(err);
     }
   }
