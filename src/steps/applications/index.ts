@@ -94,20 +94,22 @@ export async function buildApplicationRelationships({
     logger,
   );
 
-  await client.listApplicationDeviceTargets(async (application: any) => {
-    const appID = createApplicationKey(application.CIGUID?.toString());
-    const deviceID = createDeviceKey(application.ResourceID?.toString());
-    const applicationEntity = await jobState.findEntity(appID);
-    const deviceEntity = await jobState.findEntity(deviceID);
-    if (applicationEntity && deviceEntity) {
-      const deviceApplicationRelationship = createDeviceApplicationRelationship(
-        deviceEntity,
-        applicationEntity,
-      );
+  await client.listApplicationDeviceTargets(
+    async (application: any) => {
+      const appID = createApplicationKey(application.CIGUID?.toString());
+      const deviceID = createDeviceKey(application.ResourceID?.toString());
+      const applicationEntity = await jobState.findEntity(appID);
+      const deviceEntity = await jobState.findEntity(deviceID);
+      if (applicationEntity && deviceEntity) {
+        const deviceApplicationRelationship =
+          createDeviceApplicationRelationship(deviceEntity, applicationEntity);
 
-      if (!jobState.hasKey(deviceApplicationRelationship._key)) {
-        await jobState.addRelationship(deviceApplicationRelationship);
+        if (!jobState.hasKey(deviceApplicationRelationship._key)) {
+          await jobState.addRelationship(deviceApplicationRelationship);
+        }
       }
-    }
-  });
+    },
+    600,
+    logger,
+  );
 }
