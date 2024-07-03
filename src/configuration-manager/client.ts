@@ -108,8 +108,12 @@ class MicrosoftConfigurationManagerClient {
         offset,
         pageSize,
       );
-      const result = await this.wrapWithRequestFailedHandler(() =>
-        this.connection.query(query),
+      const result = await this.wrapWithRequestFailedHandler(
+        () => this.connection.query(query),
+        {
+          logger,
+          query,
+        },
       );
 
       const records = result.recordset;
@@ -271,12 +275,15 @@ class MicrosoftConfigurationManagerClient {
 
   private async wrapWithRequestFailedHandler<TResponse>(
     fn: () => Promise<TResponse>,
-    logger?: IntegrationLogger,
+    queryValidationProperties?: { logger?: IntegrationLogger; query: string },
   ) {
     try {
       return await fn();
     } catch (err) {
-      logger?.error(`Received error from SQL query: ${err}`);
+      queryValidationProperties?.logger?.error({
+        query: queryValidationProperties?.query,
+        error: `Received error from SQL query: ${err}`,
+      });
       throw this.onRequestFailed(err);
     }
   }
