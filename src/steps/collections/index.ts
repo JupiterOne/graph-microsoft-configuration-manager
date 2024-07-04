@@ -80,6 +80,7 @@ export async function buildCollectionsRelationships({
               );
             }
           },
+          logger,
         );
       }
     },
