@@ -1,3 +1,15 @@
+# v0.9.6 (Thu Jul 04 2024)
+
+#### 🐛 Bug Fix
+
+- INT-11156: performance upgrade [#22](https://github.com/JupiterOne/graph-microsoft-configuration-manager/pull/22) ([@gastonyelmini](https://github.com/gastonyelmini))
+
+#### Authors: 1
+
+- Gaston Yelmini ([@gastonyelmini](https://github.com/gastonyelmini))
+
+---
+
 # v0.9.5 (Wed Jul 03 2024)
 
 #### 🐛 Bug Fix
