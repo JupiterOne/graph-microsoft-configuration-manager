@@ -1,3 +1,15 @@
+# v0.9.8 (Thu Jul 04 2024)
+
+#### 🐛 Bug Fix
+
+- INT-11156: wrap in try/catch timeout [#24](https://github.com/JupiterOne/graph-microsoft-configuration-manager/pull/24) ([@gastonyelmini](https://github.com/gastonyelmini))
+
+#### Authors: 1
+
+- Gaston Yelmini ([@gastonyelmini](https://github.com/gastonyelmini))
+
+---
+
 # v0.9.7 (Thu Jul 04 2024)
 
 #### 🐛 Bug Fix
