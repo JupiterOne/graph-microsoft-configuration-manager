@@ -1,6 +1,6 @@
 {
   "name": "@jupiterone/graph-microsoft-configuration-manager",
-  "version": "0.9.5",
+  "version": "0.9.6",
   "description": "An integration and graph conversion project for Microsoft Configuration Manager",
   "repository": {
     "type": "git",
