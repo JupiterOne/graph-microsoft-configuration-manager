@@ -54,12 +54,14 @@ export function createLegacyApplicationEntity(application: any): Entity {
 }
 
 export function createDeviceApplicationRelationship(
-  device: Entity,
-  application: Entity,
+  deviceKey: string,
+  applicationKey: string,
 ): Relationship {
   return createDirectRelationship({
     _class: RelationshipClass.INSTALLED,
-    from: device,
-    to: application,
+    fromKey: deviceKey,
+    fromType: Entities.DEVICE._type,
+    toKey: applicationKey,
+    toType: Entities.APPLICATION._type,
   });
 }

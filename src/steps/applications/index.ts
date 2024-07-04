@@ -58,11 +58,14 @@ export async function fetchLegacyApplications({
       const applicationEntity = await jobState.addEntity(
         legacyApplicationEntity,
       );
-      const deviceID = createDeviceKey(application.ResourceID?.toString());
-      const deviceEntity = await jobState.findEntity(deviceID);
-      if (applicationEntity && deviceEntity) {
+      const deviceKey = createDeviceKey(application.ResourceID?.toString());
+
+      if (applicationEntity._key && deviceKey) {
         await jobState.addRelationship(
-          createDeviceApplicationRelationship(deviceEntity, applicationEntity),
+          createDeviceApplicationRelationship(
+            deviceKey,
+            applicationEntity._key,
+          ),
         );
       }
     }
@@ -96,20 +99,21 @@ export async function buildApplicationRelationships({
 
   await client.listApplicationDeviceTargets(
     async (application: any) => {
-      const appID = createApplicationKey(application.CIGUID?.toString());
-      const deviceID = createDeviceKey(application.ResourceID?.toString());
-      const applicationEntity = await jobState.findEntity(appID);
-      const deviceEntity = await jobState.findEntity(deviceID);
-      if (applicationEntity && deviceEntity) {
+      const applicationKey = createApplicationKey(
+        application.CIGUID?.toString(),
+      );
+      const deviceKey = createDeviceKey(application.ResourceID?.toString());
+
+      if (applicationKey && deviceKey) {
         const deviceApplicationRelationship =
-          createDeviceApplicationRelationship(deviceEntity, applicationEntity);
+          createDeviceApplicationRelationship(deviceKey, applicationKey);
 
         if (!jobState.hasKey(deviceApplicationRelationship._key)) {
           await jobState.addRelationship(deviceApplicationRelationship);
         }
       }
     },
-    600,
+    300,
     logger,
   );
 }
