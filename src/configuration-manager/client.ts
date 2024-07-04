@@ -175,7 +175,7 @@ class MicrosoftConfigurationManagerClient {
   async listCollectionSubscriptions<T>(
     tableName: string,
     iteratee: ResourceIteratee<T>,
-    pageSize: number = 600,
+    pageSize: number = 200,
   ) {
     let offset = 0;
     let hasMoreRecords = true;
