@@ -40,12 +40,12 @@
     "postversion": "cp package.json ./dist/package.json"
   },
   "peerDependencies": {
-    "@jupiterone/integration-sdk-core": "^10.0.0"
+    "@jupiterone/integration-sdk-core": "^13.1.1"
   },
   "devDependencies": {
-    "@jupiterone/integration-sdk-core": "^10.0.0",
-    "@jupiterone/integration-sdk-dev-tools": "^10.0.0",
-    "@jupiterone/integration-sdk-testing": "^10.0.0",
+    "@jupiterone/integration-sdk-core": "^13.1.1",
+    "@jupiterone/integration-sdk-dev-tools": "^13.1.1",
+    "@jupiterone/integration-sdk-testing": "^13.1.1",
     "@types/mssql": "^8.1.2",
     "auto": "^10.36.5"
   },

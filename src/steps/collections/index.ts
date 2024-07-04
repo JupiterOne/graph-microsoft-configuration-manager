@@ -27,12 +27,7 @@ export const fetchCollectionsSteps: IntegrationStep<IntegrationConfig>[] = [
     name: 'Build Collection Relationships',
     entities: [],
     relationships: [Relationships.COLLECTION_HAS_DEVICE],
-    dependsOn: [
-      Steps.FETCH_COLLECTIONS,
-      Steps.FETCH_DEVICES,
-      // INT-11156: this kind of hacky, but we need to await until this steps finishes to avoid overloading the server
-      Steps.BUILD_APPLICATION_RELATIONSHIPS,
-    ],
+    dependsOn: [Steps.FETCH_COLLECTIONS, Steps.FETCH_DEVICES],
     executionHandler: buildCollectionsRelationships,
   },
 ];

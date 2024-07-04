@@ -12,6 +12,7 @@ export const invocationConfig: IntegrationInvocationConfig<IntegrationConfig> =
     instanceConfigFields,
     validateInvocation,
     integrationSteps,
+    stepConcurrency: 1,
     async afterExecution(context) {
       try {
         await close(context.logger);
