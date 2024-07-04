@@ -69,14 +69,13 @@ export async function buildCollectionsRelationships({
         await client.listCollectionSubscriptions(
           collectionRawData.ResultTableName,
           async (subscription: any) => {
-            const deviceEntity = await jobState.findEntity(
-              createDeviceKey(subscription.MachineID),
-            );
-            if (deviceEntity) {
+            const deviceKey = createDeviceKey(subscription.MachineID);
+
+            if (deviceKey && subscription.MachineID) {
               await jobState.addRelationship(
                 createCollectorDeviceRelationship(
                   collectionEntity,
-                  deviceEntity,
+                  createDeviceKey(subscription.MachineID),
                 ),
               );
             }

@@ -35,11 +35,13 @@ export function createDeviceCollectionEntity(collection: any): Entity {
 
 export function createCollectorDeviceRelationship(
   collector: Entity,
-  device: Entity,
+  deviceKey: string,
 ): Relationship {
   return createDirectRelationship({
     _class: RelationshipClass.HAS,
-    from: collector,
-    to: device,
+    fromKey: collector._key,
+    fromType: collector._type,
+    toKey: deviceKey,
+    toType: Entities.DEVICE._type,
   });
 }

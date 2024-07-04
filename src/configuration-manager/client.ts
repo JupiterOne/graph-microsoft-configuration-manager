@@ -102,38 +102,42 @@ class MicrosoftConfigurationManagerClient {
     let offset = 0;
     let hasMoreRecords = true;
 
-    while (hasMoreRecords) {
-      const query = buildApplicationDeviceTargetingList(
-        this.dbName,
-        offset,
-        pageSize,
-      );
-      const result = await this.wrapWithRequestFailedHandler(
-        () => this.connection.query(query),
-        {
-          logger,
-          query,
-        },
-      );
-
-      const records = result.recordset;
-
-      logger.info(`Proccesed ${records.length} records from query`);
-
-      if (records.length > 0) {
-        await pMap(
-          records,
-          async (record) => {
-            await iteratee(record);
-          },
+    try {
+      while (hasMoreRecords) {
+        const query = buildApplicationDeviceTargetingList(
+          this.dbName,
+          offset,
+          pageSize,
+        );
+        const result = await this.wrapWithRequestFailedHandler(
+          () => this.connection.query(query),
           {
-            concurrency: 2,
+            logger,
+            query,
           },
         );
-        offset += pageSize;
-      } else {
-        hasMoreRecords = false;
+
+        const records = result.recordset;
+
+        logger.info(`Proccesed ${records.length} records from query`);
+
+        if (records.length > 0) {
+          await pMap(
+            records,
+            async (record) => {
+              await iteratee(record);
+            },
+            {
+              concurrency: 2,
+            },
+          );
+          offset += pageSize;
+        } else {
+          hasMoreRecords = false;
+        }
       }
+    } catch (err) {
+      logger.info(`Received SQL error when processing query: ${err}`);
     }
   }
 
@@ -171,7 +175,7 @@ class MicrosoftConfigurationManagerClient {
   async listCollectionSubscriptions<T>(
     tableName: string,
     iteratee: ResourceIteratee<T>,
-    pageSize: number = 200,
+    pageSize: number = 600,
   ) {
     let offset = 0;
     let hasMoreRecords = true;
