@@ -1,3 +1,15 @@
+# v0.9.9 (Fri Jul 05 2024)
+
+#### 🐛 Bug Fix
+
+- INT-11156: update concurrency limit [#25](https://github.com/JupiterOne/graph-microsoft-configuration-manager/pull/25) ([@gastonyelmini](https://github.com/gastonyelmini))
+
+#### Authors: 1
+
+- Gaston Yelmini ([@gastonyelmini](https://github.com/gastonyelmini))
+
+---
+
 # v0.9.8 (Thu Jul 04 2024)
 
 #### 🐛 Bug Fix
